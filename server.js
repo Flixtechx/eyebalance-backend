@@ -110,12 +110,11 @@ app.post(
       });
 
       db.prepare(`
-        INSERT INTO subscriptions (deviceId, plan, status, trial, expiresAt, customerId)
+        INSERT INTO subscriptions (deviceId, plan, status, expiresAt, customerId)
         VALUES (?, ?, ?, ?, ?, ?)
         ON CONFLICT(deviceId) DO UPDATE SET
           plan=excluded.plan,
           status=excluded.status,
-          trial=excluded.trial,
           expiresAt=excluded.expiresAt,
           customerId=excluded.customerId
       `).run(
@@ -141,7 +140,7 @@ app.post(
           : "monthly";
 
       db.prepare(`
-        INSERT INTO subscriptions (deviceId, plan, status, trial, expiresAt, customerId)
+        INSERT INTO subscriptions (deviceId, plan, status, expiresAt, customerId)
         VALUES (?, ?, ?, ?, ?, ?)
         ON CONFLICT(deviceId) DO UPDATE SET
           plan=excluded.plan,
@@ -151,8 +150,9 @@ app.post(
         deviceId,
         plan,
         subscription.status,
-        0,
-        null,
+        subscription.trial_end
+          ? subscription.trial_end * 1000
+          : null,
         subscription.customer
       );
     }
@@ -211,7 +211,7 @@ app.post(
 
       db.prepare(`
         UPDATE subscriptions
-        SET plan='free', status='inactive', trial=0
+        SET plan='free', status='inactive', expiresAt=NULL
         WHERE deviceId=?
       `).run(deviceId);
     }
