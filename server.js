@@ -141,9 +141,12 @@ app.get("/subscription-status/:deviceId", (req, res) => {
   });
 });
 
-app.listen(4242, () =>
-  console.log("Backend running on http://localhost:4242")
-);
+const PORT = process.env.PORT || 4242;
+
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
+
 
 
 
