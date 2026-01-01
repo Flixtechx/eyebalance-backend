@@ -8,7 +8,6 @@ db.prepare(`
     deviceId TEXT PRIMARY KEY,
     plan TEXT NOT NULL,
     status TEXT NOT NULL,
-    trial INTEGER NOT NULL,
     expiresAt INTEGER,
     customerId TEXT
   )
