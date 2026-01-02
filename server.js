@@ -111,7 +111,7 @@ app.post(
 
       db.prepare(`
         INSERT INTO subscriptions (deviceId, plan, status, expiresAt, customerId)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(deviceId) DO UPDATE SET
           plan=excluded.plan,
           status=excluded.status,
@@ -141,7 +141,7 @@ app.post(
 
       db.prepare(`
         INSERT INTO subscriptions (deviceId, plan, status, expiresAt, customerId)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(deviceId) DO UPDATE SET
           plan=excluded.plan,
           status=excluded.status,
